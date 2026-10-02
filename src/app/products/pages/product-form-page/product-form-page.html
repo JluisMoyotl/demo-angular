@@ -1,0 +1,62 @@
+<h1>{{ isEdit() ? 'Editar producto' : 'Nuevo producto' }}</h1>
+
+@if (error(); as error) {
+  <p class="alert" role="alert">{{ error }}</p>
+}
+
+<form class="product-form" [formGroup]="form" (ngSubmit)="save()" novalidate>
+  @let name = form.controls.name;
+  <div class="form-field">
+    <label class="form-field__label" for="product-name">Nombre</label>
+    <input
+      id="product-name"
+      class="form-field__input"
+      type="text"
+      formControlName="name"
+      autocomplete="off"
+      [attr.aria-invalid]="name.invalid && name.touched"
+      aria-describedby="product-name-error"
+    />
+    <p id="product-name-error" class="form-field__error">
+      @if (name.touched && name.hasError('required')) {
+        El nombre es obligatorio.
+      } @else if (name.touched && name.hasError('maxlength')) {
+        El nombre no puede superar 80 caracteres.
+      }
+    </p>
+  </div>
+
+  @let price = form.controls.price;
+  <div class="form-field">
+    <label class="form-field__label" for="product-price">Precio (MXN)</label>
+    <input
+      id="product-price"
+      class="form-field__input"
+      type="number"
+      min="0"
+      step="0.01"
+      formControlName="price"
+      [attr.aria-invalid]="price.invalid && price.touched"
+      aria-describedby="product-price-error"
+    />
+    <p id="product-price-error" class="form-field__error">
+      @if (price.touched && price.hasError('required')) {
+        El precio es obligatorio.
+      } @else if (price.touched && price.hasError('min')) {
+        El precio no puede ser negativo.
+      }
+    </p>
+  </div>
+
+  <div class="form-field form-field--inline">
+    <input id="product-active" type="checkbox" formControlName="active" />
+    <label for="product-active">Producto activo</label>
+  </div>
+
+  <div class="product-form__actions">
+    <button type="submit" class="btn btn--primary" [disabled]="saving()">
+      {{ saving() ? 'Guardando…' : 'Guardar' }}
+    </button>
+    <a class="btn" routerLink="/products">Cancelar</a>
+  </div>
+</form>

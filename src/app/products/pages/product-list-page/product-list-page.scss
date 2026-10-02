@@ -1,0 +1,8 @@
+.product-list-page__header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+  margin-block-end: var(--space-4);
+}

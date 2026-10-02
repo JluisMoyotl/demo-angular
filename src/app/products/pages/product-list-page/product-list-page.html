@@ -1,0 +1,14 @@
+<header class="product-list-page__header">
+  <h1>Productos</h1>
+  <a class="btn btn--primary" routerLink="new">Nuevo producto</a>
+</header>
+
+@if (store.error(); as error) {
+  <p class="alert" role="alert">{{ error }}</p>
+}
+
+@if (store.loading()) {
+  <p role="status">Cargando productos…</p>
+} @else {
+  <app-product-table [products]="store.products()" (remove)="confirmRemove($event)" />
+}

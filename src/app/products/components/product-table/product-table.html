@@ -1,0 +1,36 @@
+<table class="product-table">
+  <caption class="visually-hidden">
+    Listado de productos
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col">Nombre</th>
+      <th scope="col" class="product-table__cell--numeric">Precio</th>
+      <th scope="col">Estado</th>
+      <th scope="col"><span class="visually-hidden">Acciones</span></th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (product of products(); track product.id) {
+      <tr [class.product-table__row--inactive]="!product.active">
+        <td>{{ product.name }}</td>
+        <td class="product-table__cell--numeric">
+          {{ product.price | currency: 'MXN' : 'symbol-narrow' }}
+        </td>
+        <td>{{ product.active ? 'Activo' : 'Inactivo' }}</td>
+        <td class="product-table__actions">
+          <a class="btn" [routerLink]="[product.id, 'edit']">
+            Editar<span class="visually-hidden"> {{ product.name }}</span>
+          </a>
+          <button type="button" class="btn btn--danger" (click)="remove.emit(product)">
+            Eliminar<span class="visually-hidden"> {{ product.name }}</span>
+          </button>
+        </td>
+      </tr>
+    } @empty {
+      <tr>
+        <td colspan="4" class="product-table__empty">No hay productos registrados.</td>
+      </tr>
+    }
+  </tbody>
+</table>
